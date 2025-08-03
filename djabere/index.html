@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدير المهام - زراعة النباتات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #2e7d32;
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+        }
+        
+        header {
+            background: linear-gradient(to right, #2e7d32, #4caf50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 3px solid #1b5e20;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .plant-section {
+            padding: 20px;
+            border-bottom: 2px dashed #c8e6c9;
+            position: relative;
+            background: #f8fdf8;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #1b5e20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title i {
+            margin-left: 10px;
+            font-size: 1.6rem;
+        }
+        
+        .plant-animation {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .plant-container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        
+        .plant {
+            font-size: 5rem;
+            transition: all 1s ease;
+            position: absolute;
+            bottom: 0;
+            transform-origin: bottom center;
+        }
+        
+        .plant-ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to top, #8d6e63, #5d4037);
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .plant-types {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+        }
+        
+        .plant-type {
+            background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            margin: 0 8px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #a5d6a7;
+            color: #1b5e20;
+        }
+        
+        .plant-type.active {
+            background: linear-gradient(to bottom, #c8e6c9, #a5d6a7);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            color: #0d3a10;
+        }
+        
+        .plant-type:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .bubble-section {
+            background: linear-gradient(to bottom, #4caf50, #2e7d32);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            border-radius: 0 0 50% 50% / 0 0 40px 40px;
+            margin-top: -10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .bubble-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .bubble-section p {
+            font-size: 1.1rem;
+        }
+        
+        .tasks-title {
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            padding: 0 25px;
+            color: #1b5e20;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .daily-tasks {
+            padding: 0 25px 20px;
+        }
+        
+        .add-task {
+            background: linear-gradient(to right, #4caf50, #2e7d32);
+            color: white;
+            padding: 16px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            font-size: 1.1rem;
+        }
+        
+        .add-task:hover {
+            background: linear-gradient(to right, #3d8b40, #1b5e20);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        
+        .task-categories {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .task-category {
+            background: linear-gradient(to bottom, #f1f8e9, #e8f5e9);
+            padding: 14px 10px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            border: 1px solid #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .task-category.active {
+            background: linear-gradient(to bottom, #c8e6c9, #a5d6a7);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            color: #1b5e20;
+        }
+        
+        .task-category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.08);
+        }
+        
+        .no-tasks {
+            text-align: center;
+            padding: 35px 25px;
+            color: #757575;
+            font-size: 1.15rem;
+            background: #f9f9f9;
+            border-radius: 15px;
+            margin: 25px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+            border: 1px dashed #c8e6c9;
+        }
+        
+        .progress-section {
+            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 25px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .progress-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .progress-bar-container {
+            position: relative;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #76ff03, #00e676, #00c853);
+            width: 0%;
+            border-radius: 12px;
+            transition: width 1s ease;
+            position: relative;
+            box-shadow: 0 0 10px rgba(118, 255, 3, 0.4);
+        }
+        
+        .progress-percent {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .weather-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, #e8f5e9, #c8e6c9);
+            padding: 18px 25px;
+            border-radius: 15px;
+            margin: 25px;
+            font-weight: 600;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            border: 1px solid #c8e6c9;
+        }
+        
+        .edit-mode {
+            background: linear-gradient(to right, #4caf50, #2e7d32);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: none;
+        }
+        
+        .edit-mode.active {
+            background: linear-gradient(to right, #f44336, #d32f2f);
+        }
+        
+        .edit-mode:hover {
+            transform: scale(1.05);
+        }
+        
+        .weather-info {
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .weather-info i {
+            color: #ff9800;
+            font-size: 1.5rem;
+        }
+        
+        .add-icon {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 35px;
+            left: 35px;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border: 2px solid white;
+        }
+        
+        .add-icon:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .task-form {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            position: fixed;
+            bottom: 120px;
+            left: 35px;
+            width: 320px;
+            z-index: 200;
+            display: none;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .task-form h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1b5e20;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .task-form input, .task-form select {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            background: #f8fdf8;
+            transition: all 0.3s ease;
+        }
+        
+        .task-form input:focus, .task-form select:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            outline: none;
+        }
+        
+        .task-form button {
+            background: linear-gradient(to right, #4caf50, #2e7d32);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            width: 100%;
+            margin-top: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .task-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tasks-list {
+            padding: 0 25px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .task-item {
+            background: #f1f8e9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e8f5e9;
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+        
+        .task-item.completed .task-name {
+            text-decoration: line-through;
+            color: #9e9e9e;
+        }
+        
+        .task-info {
+            flex: 1;
+        }
+        
+        .task-name {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 5px;
+        }
+        
+        .task-category-display {
+            font-size: 0.9rem;
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .task-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .task-actions i {
+            cursor: pointer;
+            padding: 8px;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .task-actions .fa-check {
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
+        }
+        
+        .task-actions .fa-trash {
+            background: #f5f5f5;
+            color: #f44336;
+            border: 1px solid #eee;
+        }
+        
+        .task-actions i:hover {
+            transform: scale(1.1);
+        }
+        
+        .stage-indicator {
+            text-align: center;
+            font-weight: 600;
+            color: #1b5e20;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* أنيميشن النمو */
+        @keyframes grow {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .grow-animation {
+            animation: grow 0.5s ease;
+        }
+        
+        /* شريط التمرير */
+        .tasks-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .tasks-list::-webkit-scrollbar-track {
+            background: #f1f8e9;
+            border-radius: 4px;
+        }
+        
+        .tasks-list::-webkit-scrollbar-thumb {
+            background: #a5d6a7;
+            border-radius: 4px;
+        }
+        
+        .tasks-list::-webkit-scrollbar-thumb:hover {
+            background: #81c784;
+        }
+        
+        /* مراحل النبات */
+        .plant-stage-0 { content: "🌱"; font-size: 4rem; }
+        .plant-stage-1 { content: "🌿"; font-size: 4.5rem; }
+        .plant-stage-2 { content: "🪴"; font-size: 5rem; }
+        .plant-stage-3 { content: "🌳"; font-size: 5.5rem; }
+        .plant-stage-4 { content: "🌸"; font-size: 6rem; }
+        .plant-stage-5 { content: "🌺"; font-size: 6.5rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-leaf"></i> مهامي المزدهره</h1>
+        </header>
+        
+        <div class="plant-section">
+            <h2 class="section-title"><i class="fas fa-seedling"></i>نباتك النامي</h2>
+            <div class="plant-animation">
+                <div class="plant-container">
+                    <div class="plant" id="plant">🌱</div>
+                    <div class="plant-ground"></div>
+                </div>
+            </div>
+            <div class="stage-indicator" id="stageIndicator">مرحلة البذرة</div>
+            <div class="plant-types">
+                
+              
+            </div>
+        </div>
+        
+        <div class="bubble-section">
+            <h3>بذره</h3>
+          
+            <p>المهام المكتملة: <span id="completedCount">0</span></p>
+        </div>
+        
+        <h2 class="tasks-title">مهامي اليومية</h2>
+        <div class="daily-tasks">
+            <div class="add-task" id="addTaskBtn">
+                <i class="fas fa-plus"></i> أضف مهمة جديدة
+            </div>
+            <div class="task-categories">
+                
+            </div>
+        </div>
+        
+        <div class="tasks-list" id="tasksList">
+            <!-- المهام ستظهر هنا -->
+        </div>
+        
+        <div class="no-tasks" id="noTasksMessage">
+            <p>لا توجد مهام بعد، أضف مهمتك الأولى</p>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-title">التقدم إلى المرحلة التالية</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-percent" id="progressPercent">0 %</div>
+        </div>
+        
+        <div class="weather-section">
+        </div>
+    </div>
+    
+    <div class="add-icon" id="addIcon">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <div class="task-form" id="taskForm">
+        <h3>أضف مهمة جديدة</h3>
+        <input type="text" placeholder="اسم المهمة" id="taskName">
+        <select id="taskCategory">
+            
+        </select>
+        <button id="saveTask">حفظ المهمة</button>
+    </div>
+
+    <script>
+        // العناصر التفاعلية
+        const addIcon = document.getElementById('addIcon');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const taskForm = document.getElementById('taskForm');
+        const saveTask = document.getElementById('saveTask');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const tasksList = document.getElementById('tasksList');
+        const noTasksMessage = document.getElementById('noTasksMessage');
+        const completedCount = document.getElementById('completedCount');
+        const editModeBtn = document.getElementById('editModeBtn');
+        const taskCategories = document.querySelectorAll('.task-category');
+        const plantTypes = document.querySelectorAll('.plant-type');
+        const plantElement = document.getElementById('plant');
+        const stageIndicator = document.getElementById('stageIndicator');
+        
+        // بيانات المهام
+        let tasks = [];
+        let completedTasks = 0;
+        let editMode = false;
+        let progress = 0;
+        
+        // مراحل نمو النبات
+        const growthStages = [
+            { emoji: "🌱", name: "مرحلة البذرة", min: 0, max: 19 },
+            { emoji: "🌿", name: "نبتة صغيرة", min: 20, max: 39 },
+            { emoji: "🪴", name: "شجيرة صغيرة", min: 40, max: 59 },
+            { emoji: "🌳", name: "شجرة نامية", min: 60, max: 79 },
+            { emoji: "🌸", name: "شجرة مزهرة", min: 80, max: 94 },
+            { emoji: "🌺", name: "شجرة مزدهرة", min: 95, max: 100 }
+        ];
+        
+        // إظهار/إخفاء نموذج إضافة المهمة
+        function toggleTaskForm() {
+            taskForm.style.display = taskForm.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        // تحويل قيمة الفئة إلى نص
+        function getCategoryText(category) {
+            switch(category) {
+                case 'mediator': return 'واسطة';
+                case 'personal': return 'شخصي';
+                case 'update': return 'تحديث +';
+                default: return category;
+            }
+        }
+        
+        // تحديث شكل النبات حسب التقدم
+        function updatePlant() {
+            plantElement.classList.add('grow-animation');
+            
+            setTimeout(() => {
+                plantElement.classList.remove('grow-animation');
+                
+                // تحديد المرحلة الحالية
+                const currentStage = growthStages.find(stage => 
+                    progress >= stage.min && progress <= stage.max
+                );
+                
+                if (currentStage) {
+                    plantElement.textContent = currentStage.emoji;
+                    stageIndicator.textContent = currentStage.name;
+                    
+                    // تخصيص حجم النبات حسب المرحلة
+                    if (progress >= 0 && progress <= 19) plantElement.style.fontSize = "4rem";
+                    if (progress >= 20 && progress <= 39) plantElement.style.fontSize = "4.5rem";
+                    if (progress >= 40 && progress <= 59) plantElement.style.fontSize = "5rem";
+                    if (progress >= 60 && progress <= 79) plantElement.style.fontSize = "5.5rem";
+                    if (progress >= 80 && progress <= 94) plantElement.style.fontSize = "6rem";
+                    if (progress >= 95 && progress <= 100) plantElement.style.fontSize = "6.5rem";
+                }
+            }, 500);
+        }
+        
+        // عرض المهام
+        function renderTasks(category = 'all') {
+            tasksList.innerHTML = '';
+            
+            const filteredTasks = category === 'all' 
+                ? tasks 
+                : tasks.filter(task => task.category === category);
+            
+            if (filteredTasks.length === 0) {
+                noTasksMessage.style.display = 'block';
+            } else {
+                noTasksMessage.style.display = 'none';
+                
+                filteredTasks.forEach((task, index) => {
+                    const taskItem = document.createElement('div');
+                    taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
+                    taskItem.innerHTML = `
+                        <div class="task-info">
+                            <div class="task-name">${task.name}</div>
+                            <div class="task-category-display">${getCategoryText(task.category)}</div>
+                        </div>
+                        <div class="task-actions">
+                            <i class="fas fa-check" onclick="toggleTaskCompletion(${index})"></i>
+                            <i class="fas fa-trash" onclick="deleteTask(${index})"></i>
+                        </div>
+                    `;
+                    tasksList.appendChild(taskItem);
+                });
+            }
+        }
+        
+        // تبديل حالة إكمال المهمة
+        function toggleTaskCompletion(index) {
+            tasks[index].completed = !tasks[index].completed;
+            
+            if (tasks[index].completed) {
+                completedTasks++;
+                // زيادة التقدم عند إكمال المهمة
+                progress = Math.min(progress + 10, 100);
+            } else {
+                completedTasks--;
+                // تقليل التقدم عند إلغاء إكمال المهمة
+                progress = Math.max(progress - 10, 0);
+            }
+            
+            completedCount.textContent = completedTasks;
+            updateProgress();
+            updatePlant();
+            renderTasks();
+        }
+        
+        // حذف المهمة
+        function deleteTask(index) {
+            if (tasks[index].completed) {
+                completedTasks--;
+                // تقليل التقدم عند حذف مهمة مكتملة
+                progress = Math.max(progress - 10, 0);
+            }
+            
+            tasks.splice(index, 1);
+            completedCount.textContent = completedTasks;
+            updateProgress();
+            updatePlant();
+            renderTasks();
+        }
+        
+        // تحديث شريط التقدم
+        function updateProgress() {
+            progressBar.style.width = progress + '%';
+            progressPercent.textContent = progress + ' %';
+        }
+        
+        // تبديل وضع التحرير
+        function toggleEditMode() {
+            editMode = !editMode;
+            editModeBtn.classList.toggle('active', editMode);
+            editModeBtn.textContent = editMode ? 'تم الانتهاء' : 'وضع التحرير';
+        }
+        
+        // حفظ المهمة الجديدة
+        saveTask.addEventListener('click', function() {
+            const taskName = document.getElementById('taskName').value.trim();
+            const taskCategory = document.getElementById('taskCategory').value;
+            
+            if (taskName === '') {
+                alert('يرجى إدخال اسم المهمة');
+                return;
+            }
+            
+            // إضافة المهمة الجديدة
+            tasks.push({
+                name: taskName,
+                category: taskCategory,
+                completed: false
+            });
+            
+            // إعادة عرض المهام
+            renderTasks();
+            
+            // إخفاء النموذج وإعادة تعيين الحقول
+            taskForm.style.display = 'none';
+            document.getElementById('taskName').value = '';
+        });
+        
+        // أحداث المستخدم
+        addIcon.addEventListener('click', toggleTaskForm);
+        addTaskBtn.addEventListener('click', toggleTaskForm);
+        editModeBtn.addEventListener('click', toggleEditMode);
+        
+        // أحداث الفئات
+        taskCategories.forEach(category => {
+            category.addEventListener('click', function() {
+                taskCategories.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                renderTasks(this.dataset.category);
+            });
+        });
+        
+        // أحداث أنواع النباتات
+        plantTypes.forEach(type => {
+            type.addEventListener('click', function() {
+                plantTypes.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // تهيئة الصفحة عند التحميل
+        window.addEventListener('load', function() {
+            progressBar.style.width = '0%';
+            updatePlant();
+            renderTasks();
+        });
+        
+        // تحديث درجة الحرارة بشكل عشوائي (للتجربة)
+        setInterval(() => {
+            const tempElement = document.querySelector('.weather-info');
+            const newTemp = Math.floor(Math.random() * 5) + 40;
+            tempElement.innerHTML = `<i class="fas fa-sun"></i> ${newTemp}°C مشمس عائلاً`;
+        }, 15000);
+        
+        // جعل الدوال متاحة عالمياً للاستخدام في عناصر HTML
+        window.toggleTaskCompletion = toggleTaskCompletion;
+        window.deleteTask = deleteTask;
+    </script>
+</body>
+</html>
