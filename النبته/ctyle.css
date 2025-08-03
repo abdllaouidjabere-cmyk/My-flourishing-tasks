@@ -1,0 +1,75 @@
+body {
+  font-family: 'Tahoma', sans-serif;
+  background-color: #e7f5ec;
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-input {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+input[type=\"text\"], input[type=\"email\"], input[type=\"password\"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 10px 16px;
+  border: none;
+  background-color: #48bb78;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #38a169;
+}
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+#taskList li {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#taskList li.done {
+  text-decoration: line-through;
+  background-color: #d1fae5;
+}
+.plant {
+  text-align: center;
+  margin-top: 30px;
+}
+.progress-bar {
+  width: 100%;
+  background-color: #c6f6d5;
+  height: 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.progress {
+  height: 100%;
+  width: 0%;
+  background-color: #2f855a;
+  transition: width 0.3s ease;
+}
